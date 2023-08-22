@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 #===============================================================================
 
 
-class AirdropAPI(http.Controller):
+class OdooAPI(http.Controller):
 
     # Sample Controller Created
 
