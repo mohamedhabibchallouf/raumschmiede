@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="model_category_woo_to_sync"
+		model="ir.actions.server">
+		<field name="name"> Prepare Categories to Sync</field>
+		<field name="model_id"
+			ref="woocommerce_odoo.model_product_category" />
+		<field name="binding_model_id"
+			ref="woocommerce_odoo.model_product_category" />
+		<field name="binding_view_types">form,list</field>
+		<field name="state">code</field>
+		<field name="code">action = records.action_prepare_category_to_sync()
+		</field>
+	</record>
+	<record id="model_category_woo_sync" model="ir.actions.server">
+		<field name="name"> Send  Categories to website  Woo </field>
+		<field name="model_id"
+			ref="woocommerce_odoo.model_product_category" />
+		<field name="binding_model_id"
+			ref="woocommerce_odoo.model_product_category" />
+		<field name="binding_view_types">list,form</field>
+		<field name="state">code</field>
+		<field name="code">action = records.woo_category_sync()</field>
+	</record>
+
+	<record id="view_category_woo_form" model="ir.ui.view">
+		<field name="name">product.category.woo.form.woo.inherits</field>
+		<field name="model">product.category</field>
+		<field name="inherit_id"
+			ref="product.product_category_form_view" />
+		<field name="arch" type="xml">
+			<field name="parent_id" position="after">
+				<div>
+					<group>
+						<group>
+							<field name="woo_commerce_categ_id" />
+							<field name="woo_commerce_id" />
+						</group>
+						<group>
+							<field name="woo_commerce_categ_to_sync" />
+							<field name="woo_commerce_categ_sync_done" />
+							<field name="last_woo_update" />
+						</group>
+					</group>
+				</div>
+			</field>
+		</field>
+	</record>
+
+	<record id="product_category_search_form_view_woo"
+		model="ir.ui.view">
+		<field name="name">product.category.search.woo.form</field>
+		<field name="model">product.category</field>
+		<field name="inherit_id"
+			ref="product.product_category_search_view" />
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='parent_id']" position="after">
+				<separator />
+				<filter name="woo_category_to_sync"
+					string="Woo Category to sync"
+					domain="[('woo_commerce_categ_to_sync','=',True)]" />
+				<separator />
+				<filter name="woo_category_sync" string="Woo Category"
+					domain="[('woo_commerce_categ_sync_done','=',True)]" />
+
+			</xpath>
+		</field>
+	</record>
+
+	<record id="category_woo_action_all"
+		model="ir.actions.act_window">
+		<field name="name">Category</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">product.category</field>
+		<field name="view_mode">kanban,tree,form</field>
+		<field name="context">{}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create a new Category
+			</p>
+		</field>
+	</record>
+</odoo>  
+   
+   
+   
+ 

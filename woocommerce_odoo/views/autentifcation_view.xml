@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_woocommerce_tree" model="ir.ui.view">
+		<field name="name">res.config.woo.tree</field>
+		<field name="model">res.config.woo</field>
+		<field name="arch" type="xml">
+			<tree string="Configuration">
+				<field name="name" />
+				<field name="woo_version" />
+				<field name="verify_ssl" />
+				<field name="state" />
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_woocommerce_form" model="ir.ui.view">
+		<field name="name">res.config.wooform</field>
+		<field name="model">res.config.woo</field>
+		<field name="arch" type="xml">
+			<form string="Configuration">
+
+				<header>
+					<button name="connect_in_woo" string="Check Connection"
+						class="oe_highlight" type="object" states="draft" />
+					 <button name="test_woo_connection" string="Test Connection"
+						class="oe_highlight" type="object" states="draft" />
+					<button name="sync_woo_product_to_odoo" string="Sync Woo product--->Odoo"
+						class="oe_highlight" type="object" states="confirmed" />
+					<button name="sync_woo_categ_to_odoo" string="Sync Woo category---->Odoo"
+						class="oe_highlight" type="object" states="confirmed" />
+					
+					<field name="state" widget="statusbar" />
+				</header>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+
+						<button class="oe_stat_button"
+							name="%(category_woo_action_all)d" icon="fa-th-list" type="action"
+							context="{'search_default_woo_category_sync': 1, 'default_woo_category_sync': 1, 'group_expand': True}">
+							<div class="o_field_widget o_stat_info">
+								<span class="o_stat_value">
+									<field name="category_count" />
+								</span>
+								<span class="o_stat_text"> Categories</span>
+							</div>
+						</button>
+						<button class="oe_stat_button"
+							name="%(product_woo_action_all)d" icon="fa-th-list" type="action"
+							context="{'search_default_woo_product_sync': 1, 'default_woo_product_sync': 1, 'group_expand': True}">
+							<div class="o_field_widget o_stat_info">
+								<span class="o_stat_value">
+									<field name="product_count" />
+								</span>
+								<span class="o_stat_text"> Products</span>
+							</div>
+						</button>
+					</div>
+					<div class="oe_right oe_button_box" style="width: 300px;"
+						name="buttons">
+					</div>
+					<div class="oe_left" style="width: 500px;">
+						<div class="oe_title" style="width: 390px;">
+							<label class="oe_edit_only" for="name" string="Name" />
+							<h1>
+								<field name="name" class="oe_inline"
+									attrs="{'readonly':[('state','in','confirmed')]}" />
+							</h1>
+						</div>
+					</div>
+
+					<div>
+						<group string="Woo Site Info">
+							<group>
+								<field name="consumer_key"
+									attrs="{'readonly':[('state','in','confirmed')]}" />
+								<field name="consumer_secret"
+									attrs="{'readonly':[('state','in','confirmed')]}" />
+								<field name="woo_version" required="1"
+									attrs="{'readonly':[('state','in','confirmed')]}"
+									id='woo_version' />
+								<div attrs="{'invisible':[('woo_version','=','old')]}">
+									<field name="is_latest" class="oe_inline"
+										attrs="{'readonly':[('state','in','confirmed')]}" />
+									<label for="is_latest" />
+								</div>
+							</group>
+							<group>
+								<field name="host"
+									attrs="{'readonly':[('state','in','confirmed')]}" />
+								<field name="verify_ssl"
+									attrs="{'readonly':[('state','in','confirmed')]}" />
+							</group>
+						</group>
+					</div>
+<!-- 					<group string="Administrator Info"> -->
+<!-- 						<group> -->
+<!-- 							<field name="admin_username" -->
+<!-- 								attrs="{'readonly':[('state','in','confirmed')]}" /> -->
+<!-- 						</group> -->
+<!-- 						<group> -->
+<!-- 							<field name="admin_password" password="1" -->
+<!-- 								attrs="{'readonly':[('state','in','confirmed')]}" /> -->
+<!-- 						</group> -->
+<!-- 					</group> -->
+				</sheet>
+
+
+			</form>
+		</field>
+	</record>
+
+
+	<record id="action_woo_commerce" model="ir.actions.act_window">
+		<field name="name">WooCommerce Instance</field>
+		<field name="res_model">res.config.woo</field>
+		<field name="view_mode">tree,form</field>
+		<field name="view_id" eval="False" />
+	</record>
+
+	<menuitem name="WooCommerce" id="woo_commerce_main_menu" sequence="20" />
+
+	<menuitem id="woo_commerce_main_menu_dashboard"
+		parent="woo_commerce_main_menu" name="Connection"
+		action="action_woo_commerce" />
+
+
+
+
+</odoo>
