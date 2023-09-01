@@ -38,7 +38,7 @@ class Product_Product(models.Model):
                 if not item.woo_commerce_id or not item.woo_commerce_category_id :
                     raise UserError(_(" Missing to synchronize the product category or to add the correspondence woo instance  ")) 
                 
-                #image_url_1920= base_url + '/web/image?' + 'model=product_template&id=' + str(item.id) + '&field=image_1920'
+                
                 
                 if not item.woo_commerce_product_id:
                     data = {
